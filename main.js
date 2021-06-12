@@ -1,7 +1,9 @@
+//input
 var read_line_sync =  require("readline-sync"); //imported prompt alertnative 
 var chalk =  require("chalk"); //imported chalk  ( it makes  ux better)
 
-score = 0 ; //+1 when user enters right answer and vice-versa
+
+
 var questions = [//Array
 
     questionOne ={//Obj inside array
@@ -33,25 +35,36 @@ var questions = [//Array
 //Welcome message
 console.log(chalk.green("Welcome to Planetary Quiz")); 
 //user name
-const current_user = read_line_sync.question(chalk.cyan("Enter you first name please\n"));
+const total_users = read_line_sync.question(chalk.cyan("Enter the number of players\n"))
+var high_score = 0;
+var top_performer;
+var current_user;
+score = 0 ; //+1 when user enters right answer and vice-versa
 
-
-for ( let i=0;i<questions.length;i++){
-   
-        
+for (let i = 0; i<total_users;i++){
+current_user = read_line_sync.question(chalk.cyan("Enter you first name please\n"));
+for(let j=0;j<questions.length;j++){
     
+    askQuestion(questions[j].query,questions[j].answer)   // output
+}
+  
+}
 
-    current_question = read_line_sync.question(chalk.yellowBright(questions[i].query));// this variable   contains every question key from  question[]array
-    current_answer = questions[i].answer; // this variable   contains every answer key  from  question[]array
+function askQuestion(question,answer) { //processing
+  
+  
+
+    current_question = read_line_sync.question(chalk.yellowBright(question));// this variable   contains every question key from  question[]array
+    
     console.log(`your answer is ${current_question}`);
-    if (current_question===  current_answer){
+    if (current_question===answer){
         console.log(chalk.greenBright("right answer bud"));
         score ++ ;
         
 
     } else {
         if(current_question===''){
-            console.log("You skipped the question"); //nested  if &else statment in else loop for exceptional cases 
+            console.log("You skipped the question"); //nested  if &else statement in else loop for exceptional cases 
         
         }
         else{
@@ -59,11 +72,16 @@ for ( let i=0;i<questions.length;i++){
         score--;
         }
     }
-    
+    console.log(`The right answer is ${answer}`)
     console.log(`your score is ${chalk.magentaBright(score)}`);
+    if (score>high_score){
+        high_score=score
+        top_performer = current_user
+    }
+    
 }
 
 
-console.log(`high score is ${chalk.magentaBright(Math.max(score))} by ${chalk.grey.bold(current_user)}`);
+ console.log(`high score is ${chalk.magentaBright(high_score)} by ${chalk.grey.bold(top_performer)}`);
 
 
